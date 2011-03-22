@@ -5,16 +5,18 @@
   <h1><%= @article.title %></h1>
   </div>
  <div class="article_body">
-    <p>By "Josh"
-    on <%= @article.created_at.strftime("%B %d, %Y") %>
+    <p>
+    By
+    <%= @article.user ? @article.user.email : "Unkown" %>
+    on <%= print_time(@article.created_at) %>
     </p>
     <p>
       <%= @article.body %>
-	<p>Tags:
-	  <% @article.tags.each do |tag|%>
-	    <%= tag.name %>
-	   <% end %>
-	</p>
+  <p>Tags:
+    <% @article.tags.each do |tag|%>
+      <%= tag.name %>
+     <% end %>
+  </p>
     </p>
   </div>
 </div>

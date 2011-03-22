@@ -1,88 +1,42 @@
 class ArticlesController < ApplicationController
+
+  respond_to :html, :json
   before_filter :authenticate_user!, :except => [:index, :show]
-  # GET /articles
-  # GET /articles.xml
+
   def index
-    @articles = Article.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @articles }
-    end
+    respond_with(@articles = Article.all)
   end
 
-  # GET /articles/1
-  # GET /articles/1.xml
   def show
-    @article = Article.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @article }
-    end
+    respond_with(@article = Article.find(params[:id]))
   end
 
-  # GET /articles/new
-  # GET /articles/new.xml
   def new
-    @article = Article.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @article }
-    end
+    respond_with(@article = Article.new)
   end
 
-  # GET /articles/1/edit
   def edit
-    @article = Article.find(params[:id])
     authorize! :edit, @article
+    respond_with(@article = Article.find(params[:id]))
   end
 
-  # POST /articles
-  # POST /articles.xml
   def create
-    @article = Article.new(params[:article])
     authorize! :create, @article
-
-    respond_to do |format|
-      if @article.save
-        format.html { redirect_to(@article, :notice => 'Article was successfully created.') }
-        format.xml  { render :xml => @article, :status => :created, :location => @article }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
-      end
-    end
+    @article = Article.create(params[:article].merge({ :user => current_user }))
+    respond_with(@article, :location => articles_url)
   end
 
-  # PUT /articles/1
-  # PUT /articles/1.xml
   def update
-    @article = Article.find(params[:id])
     authorize! :update, @article
-
-    respond_to do |format|
-      if @article.update_attributes(params[:article])
-        format.html { redirect_to(@article, :notice => 'Article was successfully updated.') }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @article.errors, :status => :unprocessable_entity }
-      end
-    end
+    @article = Article.find(params[:id])
+    @article.update_attributes(params[:article])
+    respond_with(@article, :location => articles_url)
   end
 
-  # DELETE /articles/1
-  # DELETE /articles/1.xml
   def destroy
-    @article = Article.find(params[:id])
     authorize! :destroy, @article
+    @article = Article.find(params[:id])
     @article.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(articles_url) }
-      format.xml  { head :ok }
-    end
+    respond_with(@article)
   end
 end
