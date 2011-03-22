@@ -15,8 +15,8 @@ class User < ActiveRecord::Base
    before_create :setup_role
    private
    def setup_role
-     if self.role_ids.empty?
-       self.role_ids = [3]
+     if self.roles.empty?
+       self.roles << Role.find_by_name("Administrator")
      end
    end
 end

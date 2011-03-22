@@ -12,7 +12,7 @@
 <body>
 <div class= "container">
   <div class="span-17 colborder" id="content">
-	<img src='http://localhost:3000//public/images/banner.png' height='175px' width='690px'>
+    <%= image_tag "banner.png", { :height => '175px', :width => '690px' } %>
     <%= yield %>
   </div>
   <div class="span-4 last" id="sidebar"></div>
