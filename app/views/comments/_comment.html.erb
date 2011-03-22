@@ -1,5 +1,5 @@
 <% div_for comment do %>
-  <div id = "comment_author">
+  <div id = "comment_author" class="yellow">
   <%= comment.name %>
   <%= link_to 'Edit', edit_article_comment_path(@article, comment) %>
   <%= link_to 'Delete', article_comment_path(@article, comment), :confirm => 'Are you sure?', :method => :delete %>
@@ -8,6 +8,6 @@
   <%= print_time(comment.created_at) %>
   </div>
   <div id = "comment_text">
-<p><%= comment.body %></p>
+<div><%= comment.body %></div>
   </div>
 <% end %>
